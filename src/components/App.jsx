@@ -1,13 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-class App extends Component {
-    render() {
-        return (
-            <div>
-                <h1>My React App!</h1>
-            </div>
-        );
-    }
+import IndexPage from './pages/IndexPage.jsx';
+
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route exact path="/" component={IndexPage} />
+            </Switch>
+        </Router>
+    )
 }
 
 export default App;

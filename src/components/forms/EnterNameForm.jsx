@@ -17,7 +17,7 @@ class EnterNameForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         
         return (
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
                 <Form.Item>
                     {getFieldDecorator('name', {
                         initialValue : 'Игрок',

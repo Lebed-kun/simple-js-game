@@ -7,7 +7,7 @@ class Record(models.Model):
     is_playing = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.player_name + ' ' + str(self.score)
+        return str(self.id) + ' : ' + self.player_name + ' ' + str(self.score)
 
 class GameInfo(models.Model):
     info = models.TextField()

@@ -1,13 +1,7 @@
 from django.shortcuts import render
-from django.http import QueryDict
+from django.http import QueryDict, Http404
 from django.db.models import F
-from rest_framework.generics import (
-    ListAPIView,
-    RetrieveAPIView,
-    CreateAPIView,
-    UpdateAPIView,
-    GenericAPIView,
-)
+from rest_framework.generics import GenericAPIView
 from random import randint
 from rest_framework.response import Response
 from rest_framework import status
@@ -42,10 +36,54 @@ class NewPlayerView(GenericAPIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 record = queryset[0]
-                serializer = self.serializer_class(record, data={'player_name' : request.data.get('player_name'), 'ip' : ip})
+                serializer = self.serializer_class(record, data={'player_name' : request.data.get('player_name'), 'ip' : ip, 'is_playing' : True})
                 if serializer.is_valid():
                     serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class RandomQuestionView(GenericAPIView):
+    queryset = models.Question.objects.all()
+
+    def get(self, request):
+        queryset = self.get_queryset()
+        count = queryset.count()
+        question = queryset[randint(0, count - 1)]
+        answers = models.Answer.objects.filter(question=question)
+        
+        data = {
+            'question' : question.question,
+            'answers' : [{'answer' : answer.answer, 'question_id' : answer.question.id} for answer in answers]
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+class PutRecordView(GenericAPIView):
+    queryset = models.Record.objects.all()
+    serializer_class = serializers.RecordSerializer
+
+    def get_object(id):
+        try:
+            return models.Record.objects.get(id=id)
+        except models.Record.DoesNotExist:
+            return Http404
+
+    def put(self, request, id):
+        record = self.get_object(id)
+        data = {
+            'player_name' : record.player_name, 
+            'ip' : record.ip, 
+            'score' : request.data.score
+        }
+
+        if record.is_playing:
+            data['is_playing'] = False
+            serializer = self.serializer_class(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,20 +100,6 @@ class RecordsView(GenericAPIView):
         } for record in top_players]
         
         return Response(data, status=status.HTTP_200_OK)
-        
-class RandomQuestionView(GenericAPIView):
-    queryset = models.Question.objects.all()
-
-    def get(self, request):
-        queryset = self.get_queryset()
-        count = queryset.count()
-        question = queryset[randint(0, count - 1)]
-        answers = models.Answer.objects.filter(question=question)
-        
-        data = {
-            'question' : question.question,
-            'answers' : [{'answer' : answer.answer, 'question_id' : answer.question.id} for answer in answers]
-        }
-        return Response(data, status=status.HTTP_200_OK)
+    
 
 

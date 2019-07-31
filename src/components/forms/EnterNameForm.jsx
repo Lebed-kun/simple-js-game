@@ -1,14 +1,23 @@
 import React from 'react';
+import axios from 'axios';
 import { Form, Button, Input } from 'antd';
 import { withRouter } from 'react-router';
+
+import { BASE_URL } from '../constants';
 
 class EnterNameForm extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                localStorage.setItem('playerName', values.name);
-                this.props.history.push('/game');
+                axios.post(`${BASE_URL}/api/new_player/`, {
+                    player_name : values.name
+                }).then(res => {
+                    localStorage.setItem('player_id', res.id);
+                    this.props.history.push('/game');
+                }).catch(err => {
+                    console.log(err);
+                }) 
             }
         })
     }

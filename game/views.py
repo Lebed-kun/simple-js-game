@@ -36,7 +36,13 @@ class NewPlayerView(GenericAPIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             record = queryset[0]
-            serializer = self.serializer_class(record, data={'player_name' : request.data.get('player_name'), 'ip' : ip, 'is_playing' : True})
+            data = {
+                'player_name' : request.data.get('player_name'), 
+                'ip' : ip, 
+                'is_playing' : True,
+                'score' : record.score,
+            }
+            serializer = self.serializer_class(record, data=data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)

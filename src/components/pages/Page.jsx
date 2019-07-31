@@ -7,7 +7,7 @@ function Page(props) {
     return (
         <Layout>
             <Header style={{background : '#fffdd0'}}>
-                <h1>{props.heading || 'Simple game'}</h1>
+                <h1>{props.heading}</h1>
             </Header>
 
             <Content>
@@ -16,7 +16,6 @@ function Page(props) {
 
             <Footer>
                 {props.footer}
-                <span>&copy; John Byte 2019</span>
             </Footer>
         </Layout>
     )

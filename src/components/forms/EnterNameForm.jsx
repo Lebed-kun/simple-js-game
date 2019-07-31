@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Form, Button, Input } from 'antd';
 import { withRouter } from 'react-router';
 
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../constants.js';
 
 class EnterNameForm extends React.Component {
     handleSubmit = e => {

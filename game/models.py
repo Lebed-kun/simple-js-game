@@ -23,7 +23,21 @@ class Question(models.Model):
 
 class Answer(models.Model):
     answer = models.CharField(max_length=50)
-    question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='Answer')
+    question = models.ForeignKey('Question', on_delete=models.CASCADE)
+    is_correct = models.BooleanField()
+
+    def __str__(self):
+        return str(self.question.id) + ' : ' + self.answer
+
+class SuggestQuestion(models.Model):
+    question = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.question
+
+class SuggestAnswer(models.Model):
+    answer = models.CharField(max_length=50)
+    question = models.ForeignKey('Question', on_delete=models.CASCADE)
     is_correct = models.BooleanField()
 
     def __str__(self):

@@ -16,8 +16,9 @@ class GameInfoView(GenericAPIView):
     queryset = models.GameInfo.objects.all()
     
     def get(self, request):
-        obj = self.get_queryset()[0]
-        return Response({'info' : obj.info}, status=status.HTTP_200_OK) 
+        non_empty = self.get_queryset().count() > 0
+        obj = self.get_queryset()[0] if non_empty else None
+        return Response({'info' : obj.info if non_empty else ''}, status=status.HTTP_200_OK) 
 
 class NewPlayerView(GenericAPIView):
     queryset = models.Record.objects.all()
@@ -128,6 +129,11 @@ class RecordsView(GenericAPIView):
         } for record in top_players]
         
         return Response(data, status=status.HTTP_200_OK)
+
+class NewSuggestioView(GenericAPIView):
+    def post(self, request):
+        question = request.data.question
+        answers = request.data.answers
     
 
 

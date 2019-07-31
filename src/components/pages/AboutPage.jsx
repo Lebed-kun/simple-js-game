@@ -29,7 +29,7 @@ class AboutPage extends React.Component {
         if (this.state.loading) {
             contents = <ClipLoader />
         } else if (this.state.error) {
-            contents = <h1 style="color : red;">Error in loading info :(</h1>;
+            contents = <h1 style={{color : 'red'}}>Error in loading info :(</h1>;
         } else {
             contents = this.state.contents;
         }

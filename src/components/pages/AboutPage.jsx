@@ -35,7 +35,7 @@ class AboutPage extends React.Component {
         }
         
         return (
-            <Page heading="Об игре" footer={<MenuButton />}>
+            <Page header={<h1>Об игре</h1>} footer={<MenuButton />}>
                 {contents}
             </Page>
         )

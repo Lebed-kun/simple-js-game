@@ -6,7 +6,7 @@ import MenuButton from '../MenuButton.jsx';
 
 function EnterNamePage() {
     return (
-        <Page heading="Введите ваше имя" footer={<MenuButton />}>
+        <Page header={<h1>Введите ваше имя</h1>} footer={<MenuButton />}>
             <EnterNameForm />
         </Page>
     )

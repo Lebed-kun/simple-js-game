@@ -36,7 +36,6 @@ class SuggestAnswerSerializer(serializers.ModelSerializer):
         fields = ('id', 'answer', 'question_id', 'is_correct')
 
     def create(self, validated_data):
-        print(validated_data)
         question = models.SuggestQuestion.objects.get(id=validated_data['question']['id'])
         answer = models.SuggestAnswer.objects.create(answer=validated_data['answer'], question=question, is_correct=validated_data['is_correct'])
         return answer

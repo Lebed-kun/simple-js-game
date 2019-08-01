@@ -7,7 +7,7 @@ function Page(props) {
     return (
         <Layout>
             <Header style={{background : '#fffdd0'}}>
-                <h1>{props.heading}</h1>
+                {props.header}
             </Header>
 
             <Content>

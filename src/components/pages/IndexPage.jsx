@@ -8,7 +8,7 @@ import Page from './Page.jsx';
 
 function IndexPage() {
     return (
-        <Page heading="Викторина" footer={<span>&copy; John Byte 2019</span>}>
+        <Page header={<h1>Викторина</h1>} footer={<span>&copy; John Byte 2019</span>}>
             {menuItems.map((el, id) => (
                 <Button type="primary" key={`menu_${id}`}>
                     <Link to={el.href}>

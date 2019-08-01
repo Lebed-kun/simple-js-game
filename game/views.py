@@ -130,10 +130,38 @@ class RecordsView(GenericAPIView):
         
         return Response(data, status=status.HTTP_200_OK)
 
-class NewSuggestioView(GenericAPIView):
+class NewSuggestionView(GenericAPIView):
+    serializer_class = serializers.SuggestQuestionSerializer
+    
     def post(self, request):
-        question = request.data.question
-        answers = request.data.answers
+        data = {}
+
+        question = request.data.get('question')
+        QuestionSerializer = serializers.SuggestQuestionSerializer(data={'question' : question})
+
+        if QuestionSerializer.is_valid():
+            QuestionSerializer.save()
+            data['question'] = QuestionSerializer.data
+        else:
+            return Response(QuestionSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        data['answers'] = []
+        answers = request.data.get('answers')
+        question_id = QuestionSerializer.data.get('id')
+        for answer in answers:
+            answer_data = {'answer' : answer['answer'], 'question_id' : question_id, 'is_correct' : answer['is_correct']}
+            AnswerSerializer = serializers.SuggestAnswerSerializer(data=answer_data)
+            if AnswerSerializer.is_valid():
+                AnswerSerializer.save()
+                answer_data['id'] = AnswerSerializer.data.get('id')
+                data['answers'].append(answer_data)
+            else:
+                return Response(AnswerSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
+        
     
 
 

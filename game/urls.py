@@ -9,4 +9,5 @@ urlpatterns = [
     path('check_answer/<id>/', views.CheckAnswerView.as_view()),
     path('put_record/<id>/', views.PutRecordView.as_view()),
     path('records/', views.RecordsView.as_view()),
+    path('suggest/', views.NewSuggestionView.as_view())
 ]

@@ -37,7 +37,7 @@ class SuggestQuestion(models.Model):
 
 class SuggestAnswer(models.Model):
     answer = models.CharField(max_length=50)
-    question = models.ForeignKey('Question', on_delete=models.CASCADE)
+    question = models.ForeignKey('SuggestQuestion', on_delete=models.CASCADE)
     is_correct = models.BooleanField()
 
     def __str__(self):

@@ -3,9 +3,10 @@ import axios from 'axios';
 import { BASE_URL } from '../../constants.js';
 import * as actionTypes from './actionTypes.js';
 
-export const correctAnswer = () => {
+export const correctAnswer = correctAnswerId => {
     return {
-        type : actionTypes.CORRECT_ANSWER
+        type : actionTypes.CORRECT_ANSWER,
+        correctAnswerId
     }
 }
 
@@ -26,8 +27,8 @@ export const checkAnswer = id => {
     return dispatch => {
         axios.get(`${BASE_URL}/api/check_answer/${id}/`)
             .then(res => {
-                if (res.data.correct_answer_id === undefined) {
-                    dispatch(correctAnswer());
+                if (res.data.is_correct) {
+                    dispatch(correctAnswer(res.data.correct_answer_id));
                 } else {
                     dispatch(wrongAnswer(res.data.correct_answer_id));
                 }

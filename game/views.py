@@ -56,13 +56,15 @@ class RandomQuestionView(GenericAPIView):
     def get(self, request):
         queryset = self.get_queryset()
         count = queryset.count()
-        question = queryset[randint(0, count - 1)]
+        question = queryset[randint(0, count - 1)] if count > 0 else None
         answers = models.Answer.objects.filter(question=question)
         
         data = {
+            'id' : question.id,
             'question' : question.question,
-            'answers' : [{'id' : answer.id, 'answer' : answer.answer, 'question_id' : answer.question.id} for answer in answers]
-        }
+            'answers' : [{'id' : answer.id, 'answer' : answer.answer} for answer in answers]
+        } if question is not None else {}
+
         return Response(data, status=status.HTTP_200_OK)
 
 class CheckAnswerView(GenericAPIView):
@@ -76,11 +78,8 @@ class CheckAnswerView(GenericAPIView):
 
     def get(self, request, id):
         answer = self.get_object(id)
-        if (answer.is_correct):
-            return Response({'is_correct' : True}, status=status.HTTP_200_OK)
-        else:
-            correct_answer = self.get_queryset().filter(Q(question=answer.question) & Q(is_correct=True))[0]
-            return Response({'is_correct' : False, 'correct_answer_id' : correct_answer.id})
+        correct_answer = self.get_queryset().filter(Q(question=answer.question) & Q(is_correct=True))[0]
+        return Response({'is_correct' : answer.is_correct, 'correct_answer_id' : correct_answer.id})
 
 class PutRecordView(GenericAPIView):
     queryset = models.Record.objects.all()

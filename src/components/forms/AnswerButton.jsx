@@ -33,15 +33,12 @@ class AnswerButton extends React.Component {
         let isCorrectAnswer = this.props.answer.id === this.props.correctAnswerId;
 
         if (continueCond && isCorrectAnswer) {
-            console.log('V');
             this.setState({color : 'green'});
             // TO DO : retrieving next question
         } else if (failCond && isCorrectAnswer) {
-            console.log('FC');
             this.setState({color : 'green'});
             // TO DO : redirecting to records page
         } else if (failCond) {
-            console.log('F');
             this.setState({color : 'red'});
             // TO DO : redirecting to records page
         }

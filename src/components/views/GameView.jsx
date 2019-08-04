@@ -2,19 +2,29 @@ import React from 'react';
 import axios from 'axios';
 import { Card } from 'antd';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import AnswerButton from '../forms/AnswerButton.jsx';
 
-import { BASE_URL } from '../constants.js';
+import { BASE_URL, ANSWER_DELAY } from '../constants.js';
+
+const mapStateToProps = state => {
+    return {
+        continued : state.continued,
+        fail : state.fail
+    }
+}
 
 class GameView extends React.Component {
     state = {
         loading : true,
         error : false,
-        data : null
+        data : null,
+        score : 0
     }
-    
-    componentDidMount() {
+
+    loadAnswer = () => {
         axios.get(`${BASE_URL}/api/random/`)
             .then(res => {
                 this.setState({
@@ -29,6 +39,26 @@ class GameView extends React.Component {
                     error : true
                 })
             })
+    }
+    
+    componentDidMount() {
+        this.loadAnswer();
+    }
+
+    componentDidUpdate(prevProps) {
+        let continueCond = this.props.continued !== prevProps.continued;
+        let failCond = this.props.fail !== prevProps.fail;
+
+        if (continueCond) {
+            setTimeout(() => {
+                this.setState({ loading : true, score : this.state.score + 1 });
+                this.loadAnswer();
+            }, ANSWER_DELAY);
+        } else if (failCond) {
+            setTimeout(() => {
+                this.props.history.push('/records');
+            }, ANSWER_DELAY);
+        }
     }
     
     render() {
@@ -54,10 +84,13 @@ class GameView extends React.Component {
         
         return (
             <div>
+                <h3>{this.state.score}</h3>
                 {content}
             </div>
         )
     }
 }
 
-export default GameView;
+const GameViewConnect = connect(mapStateToProps)(GameView);
+
+export default withRouter(GameViewConnect);

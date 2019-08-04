@@ -12,7 +12,8 @@ import { BASE_URL, ANSWER_DELAY } from '../constants.js';
 const mapStateToProps = state => {
     return {
         continued : state.continued,
-        fail : state.fail
+        fail : state.fail,
+        checked_questions : state.checked_questions
     }
 }
 
@@ -21,15 +22,19 @@ class GameView extends React.Component {
         loading : true,
         error : false,
         data : null,
-        score : 0
+        score : 0,
+        checked_questions : []
     }
 
     loadAnswer = () => {
-        axios.get(`${BASE_URL}/api/random/`)
+        axios.post(`${BASE_URL}/api/random/`, {
+            checked_questions : this.state.checked_questions
+        })
             .then(res => {
                 this.setState({
                     loading : false,
-                    data : res.data
+                    data : res.data,
+                    checked_questions : this.state.checked_questions.concat([res.data.id])
                 });
             })
             .catch(err => {
@@ -45,8 +50,10 @@ class GameView extends React.Component {
         this.loadAnswer();
     }
 
-    componentDidUpdate(prevProps) {
-        let continueCond = this.props.continued !== prevProps.continued;
+    componentDidUpdate(prevProps, prevState) {
+        let emptyAnswers = !this.state.data.answers && 
+            this.state.data.answers !== prevState.data.answers;
+        let continueCond = this.props.continued !== prevProps.continued && !emptyAnswers;
         let failCond = this.props.fail !== prevProps.fail;
 
         if (continueCond) {
@@ -58,6 +65,8 @@ class GameView extends React.Component {
             setTimeout(() => {
                 this.props.history.push('/records');
             }, ANSWER_DELAY);
+        } else if (emptyAnswers) {
+            this.props.history.push('/records');
         }
     }
     

@@ -53,8 +53,8 @@ class NewPlayerView(GenericAPIView):
 class RandomQuestionView(GenericAPIView):
     queryset = models.Question.objects.all()
 
-    def get(self, request):
-        queryset = self.get_queryset()
+    def post(self, request):
+        queryset = self.get_queryset().exclude(id__in=request.data.get('checked_questions'))
         count = queryset.count()
         question = queryset[randint(0, count - 1)] if count > 0 else None
         answers = models.Answer.objects.filter(question=question)

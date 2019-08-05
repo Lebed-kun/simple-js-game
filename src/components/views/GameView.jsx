@@ -46,6 +46,19 @@ class GameView extends React.Component {
                 })
             })
     }
+
+    putRecord = () => {
+        let playerId = localStorage.getItem('player_id');
+        axios.put(`${BASE_URL}/api/put_record/${playerId}/`, {
+            score : this.state.score
+        })
+            .then(res => {
+                this.props.history.push('/records');
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
     
     componentDidMount() {
         this.loadAnswer();
@@ -64,10 +77,10 @@ class GameView extends React.Component {
             }, ANSWER_DELAY);
         } else if (failCond) {
             setTimeout(() => {
-                this.props.history.push('/records');
+                this.putRecord();
             }, ANSWER_DELAY);
         } else if (emptyAnswers) {
-            this.props.history.push('/records');
+            this.putRecord();
         }
     }
     
@@ -89,7 +102,7 @@ class GameView extends React.Component {
                 <div>
                     <h3>{this.state.score}</h3>
                     <ReactCountdownClock seconds={10} size={50} 
-                        onComplete={() => this.props.history.push('/records')}
+                        onComplete={this.putRecord}
                     />
                     <Card title={this.state.data.question}>
                         {answers}

@@ -13,7 +13,7 @@ class EnterNameForm extends React.Component {
                 axios.post(`${BASE_URL}/api/new_player/`, {
                     player_name : values.name
                 }).then(res => {
-                    localStorage.setItem('player_id', res.id);
+                    localStorage.setItem('player_id', res.data.id);
                     this.props.history.push('/game');
                 }).catch(err => {
                     console.log(err);

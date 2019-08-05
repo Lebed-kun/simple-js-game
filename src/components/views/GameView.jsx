@@ -53,6 +53,7 @@ class GameView extends React.Component {
             score : this.state.score
         })
             .then(res => {
+                localStorage.setItem('score', res.data.score);
                 this.props.history.push('/records');
             })
             .catch(err => {

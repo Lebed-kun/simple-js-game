@@ -8,6 +8,10 @@ export const items = [
         href : '/records',
     },
     {
+        title : 'Предложить вопрос',
+        href : '/suggest'
+    },
+    {
         title : 'Об игре',
         href : '/about',
     }

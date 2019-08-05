@@ -10,6 +10,7 @@ import EnterNamePage from './pages/EnterNamePage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import GamePage from './pages/GamePage.jsx';
 import RecordsPage from './pages/RecordsPage.jsx';
+import SuggestionPage from './pages/SuggestionPage.jsx';
 
 import reducer from './store/reducers/reducer.js';
 
@@ -29,6 +30,7 @@ function App() {
                     <Route exact path="/about" component={AboutPage} />
                     <Route exact path="/game" component={GamePage} />
                     <Route exact path="/records" component={RecordsPage} />
+                    <Route exact path="/suggest" component={SuggestionPage} />
                 </Switch>
             </Router>
         </Provider>

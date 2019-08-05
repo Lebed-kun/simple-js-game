@@ -4,6 +4,7 @@ import { Card } from 'antd';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import ReactCountdownClock from 'react-countdown-clock';
 
 import AnswerButton from '../forms/AnswerButton.jsx';
 
@@ -85,18 +86,19 @@ class GameView extends React.Component {
             }
             
             content = (
-                <Card title={this.state.data.question}>
-                    {answers}
-                </Card>
+                <div>
+                    <h3>{this.state.score}</h3>
+                    <ReactCountdownClock seconds={10} size={50} 
+                        onComplete={() => this.props.history.push('/records')}
+                    />
+                    <Card title={this.state.data.question}>
+                        {answers}
+                    </Card>
+                </div>
             )
         }
         
-        return (
-            <div>
-                <h3>{this.state.score}</h3>
-                {content}
-            </div>
-        )
+        return content;
     }
 }
 

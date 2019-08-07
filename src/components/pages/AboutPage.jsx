@@ -31,7 +31,11 @@ class AboutPage extends React.Component {
         } else if (this.state.error) {
             contents = <h1 style={{color : 'red'}}>Error in loading info :(</h1>;
         } else {
-            contents = this.state.contents;
+            contents = (
+                <Card style={{margin : '20px'}}>
+                    <div dangerouslySetInnerHTML={{__html : this.state.contents}}></div>
+                </Card>
+            )
         }
         
         return (

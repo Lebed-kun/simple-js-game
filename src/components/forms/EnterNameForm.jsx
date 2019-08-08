@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Form, Button, Input } from 'antd';
+import { Form, Button, Input, Row, Col } from 'antd';
 import { withRouter } from 'react-router';
 
 import { BASE_URL } from '../constants.js';
@@ -26,25 +26,31 @@ class EnterNameForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <Form.Item>
-                    {getFieldDecorator('name', {
-                        initialValue : 'Игрок',
-                        rules : [
-                            {
-                                required : true,
-                                whitespace : true,
-                                message : 'Введите имя!'
-                            }
-                        ]
-                    })(<Input />)}
-                </Form.Item>
+            <Form onSubmit={this.handleSubmit} style={{margin : '20px'}}>
+                <Row gutter={16}>
+                    <Col key="name" xl={20}>
+                        <Form.Item>
+                            {getFieldDecorator('name', {
+                                initialValue : 'Игрок',
+                                rules : [
+                                    {
+                                        required : true,
+                                        whitespace : true,
+                                        message : 'Введите имя!'
+                                    }
+                                ]
+                            })(<Input />)}
+                        </Form.Item>
+                    </Col>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        Начать
-                    </Button>
-                </Form.Item>
+                    <Col key="submit" xl={4}>
+                        <Form.Item key="submit">
+                            <Button type="primary" htmlType="submit" block>
+                                Начать
+                            </Button>
+                        </Form.Item>
+                    </Col>
+                </Row>
             </Form>
         )
     }

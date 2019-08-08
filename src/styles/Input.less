@@ -1,0 +1,24 @@
+@border-color : #a0a0a0;
+@check-box-size : 20px;
+@check-box-margin : 16px;
+
+.SuggestInput {
+    &.ant-input {
+        background-color: #f0fed9;
+        border-color : @border-color;
+        width : calc(100% - @check-box-size - @check-box-margin);
+    }
+}
+
+.FormCard {
+    &.ant-card {
+        border-color : @border-color;
+    }
+}
+
+.Checkbox {
+    .ant-checkbox {
+        font-size : @check-box-size;
+        margin-left : @check-box-margin;
+    }
+}

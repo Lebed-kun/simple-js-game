@@ -8,6 +8,8 @@ import MenuButton from '../MenuButton.jsx';
 
 import { BASE_URL } from '../constants.js';
 
+import "../../styles/Table.less";
+
 class RecordsPage extends React.Component {
     state = {
         data : null,
@@ -83,7 +85,9 @@ class RecordsPage extends React.Component {
             content = <Table 
                 dataSource={dataSource} 
                 columns={columns}
-                pagination={false} 
+                pagination={false}
+                style={{margin : '20px'}}
+                className="Table" 
             />;
             
         }

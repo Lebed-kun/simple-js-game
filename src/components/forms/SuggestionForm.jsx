@@ -1,12 +1,14 @@
 import React from 'react';
 import {
     Form, Button, Input,
-    Checkbox, Icon, Card
+    Checkbox, Icon, Card, Row
 } from 'antd';
 import axios from 'axios';
 
 import { MIN_ANSWERS, MAX_ANSWERS, BASE_URL } from '../constants.js';
 import { cleanArray, generateArray } from '../utils.js';
+
+import '../../styles/Input.less';
 
 class SuggestionForm extends React.Component {
     state = {
@@ -71,7 +73,7 @@ class SuggestionForm extends React.Component {
 
             const answers = keys.map((k, id) => (
                 <Form.Item
-                    label={id === 0 ? 'Ответы: ' : ''}
+                    label={id === 0 ? 'Ответы (правильный отметьте галочкой): ' : ''}
                     required={false}
                     key={`answer_${k}`}
                 >
@@ -83,11 +85,11 @@ class SuggestionForm extends React.Component {
                                 message : 'Введите ответ!'
                             }
                         ]
-                    })(<Input />)}
+                    })(<Input className="SuggestInput" />)}
 
                     {getFieldDecorator(`answers[${k}].is_correct`, {
                         initialValue : false
-                    })(<Checkbox />)}
+                    })(<Checkbox className="Checkbox" />)}
                 </Form.Item>
             ));
 
@@ -98,24 +100,26 @@ class SuggestionForm extends React.Component {
                             required : true,
                             whitespace : true,
                             message : 'Введите вопрос!'
-                        })(<Input />)}
+                        })(<Input className="SuggestInput" />)}
                     </Form.Item>
 
                     {answers}
 
-                    <Form.Item key="add_answer">
-                        {keys.length < MAX_ANSWERS ? (
-                            <Button type="default" onClick={this.add}>
-                                <Icon type="plus" /> Добавить ответ
-                            </Button>
-                        ) : null}
-                    </Form.Item>
+                    <Row type="flex" justify="space-between">
+                        <Form.Item key="add_answer">
+                            {keys.length < MAX_ANSWERS ? (
+                                <Button type="default" onClick={this.add}>
+                                    <Icon type="plus" /> Добавить ответ
+                                </Button>
+                            ) : null}
+                        </Form.Item>
 
-                    <Form.Item key="submit">
-                        <Button type="primary" htmlType="submit">
-                            Предложить
-                        </Button>
-                    </Form.Item>
+                        <Form.Item key="submit">
+                            <Button type="primary" htmlType="submit">
+                                Предложить
+                            </Button>
+                        </Form.Item>
+                    </Row>
                 </Form>
             );
         } else if (!this.state.error) {
@@ -125,7 +129,7 @@ class SuggestionForm extends React.Component {
         }
 
         return (
-            <Card>
+            <Card style={{margin : '20px'}} className="FormCard">
                 {content}
             </Card>
         )

@@ -1,7 +1,7 @@
 from django.db import models
 
 class Record(models.Model):
-    player_name = models.CharField(max_length=100)
+    player_name = models.CharField(max_length=50)
     score = models.IntegerField(default=0)
     ip = models.GenericIPAddressField(blank=True, null=True)
     is_playing = models.BooleanField(default=True)

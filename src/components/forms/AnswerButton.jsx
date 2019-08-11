@@ -34,19 +34,27 @@ class AnswerButton extends React.Component {
 
         if (continueCond && isCorrectAnswer) {
             this.setState({color : 'green'});
-            // TO DO : retrieving next question
         } else if (failCond && isCorrectAnswer) {
             this.setState({color : 'green'});
-            // TO DO : redirecting to records page
         } else if (failCond) {
             this.setState({color : 'red'});
-            // TO DO : redirecting to records page
         }
     }
     
     render() {
+        let style = {
+            border : !this.state.color ? '1px solid rgb(125, 125, 125)' : 'none',
+            color : !this.state.color ? 'rgb(125, 125, 125)' : 'white',
+            background : !this.state.color ? 'transparent' : this.state.color
+        }
+        
         return (
-            <Button type="primary" style={{background : this.state.color}} onClick={this.handleClick}>
+            <Button 
+                type="primary" 
+                style={style} 
+                onClick={this.handleClick} 
+                block
+            >
                 {this.props.answer.answer}
             </Button>
         )

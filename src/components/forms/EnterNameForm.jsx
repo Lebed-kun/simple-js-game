@@ -5,6 +5,8 @@ import { withRouter } from 'react-router';
 
 import { BASE_URL } from '../constants.js';
 
+import '../../styles/Input.less';
+
 class EnterNameForm extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
@@ -28,7 +30,7 @@ class EnterNameForm extends React.Component {
         return (
             <Form onSubmit={this.handleSubmit} style={{margin : '20px'}}>
                 <Row gutter={16}>
-                    <Col key="name" xl={20}>
+                    <Col key="name" md={20}>
                         <Form.Item>
                             {getFieldDecorator('name', {
                                 initialValue : 'Игрок',
@@ -43,9 +45,14 @@ class EnterNameForm extends React.Component {
                         </Form.Item>
                     </Col>
 
-                    <Col key="submit" xl={4}>
+                    <Col key="submit" md={4}>
                         <Form.Item key="submit">
-                            <Button type="primary" htmlType="submit" block>
+                            <Button 
+                                type="primary" 
+                                htmlType="submit" 
+                                block
+                                className="SuccessButton"
+                            >
                                 Начать
                             </Button>
                         </Form.Item>

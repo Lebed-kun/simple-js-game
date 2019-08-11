@@ -39,13 +39,24 @@ class RecordsPage extends React.Component {
         if (hasScore) {
             localStorage.removeItem('score');
         }
+        
+        let hasMaxScore = localStorage.getItem('max_score') !== undefined;
+        if (hasMaxScore) {
+            localStorage.removeItem('max_score');
+        }
     }
 
     
     render() {
         let score = localStorage.getItem('score');
+        let maxScore = localStorage.getItem('max_score');
 
-        const header = <h1>{score ? `Вы набрали ${score} очков` : 'Рекорды'}</h1>;
+        const header = (
+            <div>
+                {score ? <p>Вы набрали {score} очков</p> : <h1>Рекорды</h1>}
+                {maxScore ? <p>Ваш рекорд: {maxScore} очков</p> : null}
+            </div>
+        );
 
         const footer = <MenuButton />;
 
@@ -58,7 +69,7 @@ class RecordsPage extends React.Component {
             const dataSource = this.state.data.map((el, id) => {
                 return {
                     key : id,
-                    id : id,
+                    id : id + 1,
                     name : el.player_name,
                     score : el.score
                 }

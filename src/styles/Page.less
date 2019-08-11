@@ -1,0 +1,25 @@
+.Page {
+    &.ant-row-flex {
+        margin-top: 32px;
+    }
+
+    .Layout {
+        &.ant-layout {
+            border: 1px solid black;
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .Page {
+        &.ant-row-flex {
+            margin-top: 0;
+        }
+
+        .Layout {
+            &.ant-layout {
+                border: none;
+            }
+        }
+    }
+}

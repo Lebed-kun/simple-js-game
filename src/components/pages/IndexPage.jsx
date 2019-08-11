@@ -13,7 +13,7 @@ function IndexPage() {
         <Page header={<h1>Викторина</h1>} footer={<span>&copy; John Byte 2019</span>}>
             {menuItems.map((el, id) => (
                 <Row type="flex" justify="center" key={`menu_${id}`}>
-                    <Col xl={8}>
+                    <Col lg={8} span={16} >
                         <Button 
                             type="primary" 
                             size="large" 

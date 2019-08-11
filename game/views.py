@@ -120,7 +120,7 @@ class RecordsView(GenericAPIView):
 
     def get(self, request):
         queryset = self.get_queryset()
-        top_players = queryset.order_by('-score')[:TOP_PLAYERS]
+        top_players = queryset.filter(score__gt=0).order_by('-score')[:TOP_PLAYERS]
         
         data = [{
             'player_name' : record.player_name,

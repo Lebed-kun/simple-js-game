@@ -52,6 +52,7 @@ class NewPlayerView(GenericAPIView):
 
 class RandomQuestionView(GenericAPIView):
     queryset = models.Question.objects.all()
+    serializer_class = serializers.QuestionSerializer
 
     def post(self, request):
         queryset = self.get_queryset().exclude(id__in=request.data.get('checked_questions'))

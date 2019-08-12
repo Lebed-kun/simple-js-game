@@ -105,11 +105,14 @@ class GameView extends React.Component {
             
             content = (
                 <div>
-                    <h3>Правильно: {this.state.score}</h3>
-                    <ReactCountdownClock seconds={10000} size={50} 
-                        onComplete={this.putRecord}
-                    />
-                    <Card title={this.state.data.question}>
+                    <Col style={{margin : '16px'}}>
+                        <ReactCountdownClock seconds={15} size={50} 
+                            onComplete={this.putRecord}
+                            color="#1890ff"
+                        />
+                    </Col>
+                    <h3 style={{marginLeft : '16px'}}>Правильно: {this.state.score}</h3>
+                    <Card title={this.state.data.question} bordered={false}>
                         <Row gutter={16}>
                             {answers}
                         </Row>

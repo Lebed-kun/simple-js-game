@@ -112,7 +112,9 @@ class GameView extends React.Component {
                         />
                     </Col>
                     <h3 style={{marginLeft : '16px'}}>Правильно: {this.state.score}</h3>
-                    <Card title={this.state.data.question} bordered={false}>
+                    <Card bordered={false}>
+                        <h3>{this.state.data.question}</h3>
+
                         <Row gutter={16}>
                             {answers}
                         </Row>
